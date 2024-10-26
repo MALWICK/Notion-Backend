@@ -1,7 +1,7 @@
 import cors from "cors";
 import express, { Request, Response } from "express";
 import { connectDB } from "./configs/DB";
-// import allRouter from "./routes";
+import allRouter from "./routes/index.routes";
 
 connectDB();
 
@@ -14,7 +14,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 // app.use("/uploads", express.static("uploads"));
 
-// app.use("/api", allRouter);
+app.use("/api", allRouter);
 
 // Basic route
 app.get("/", (req: Request, res: Response) => {

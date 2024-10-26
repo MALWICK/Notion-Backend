@@ -1,4 +1,8 @@
-import { ErrorProps, ErrorResponse } from "../types/error.types";
+import {
+  ErrorHandlerReturn,
+  ErrorProps,
+  ErrorResponse
+} from "../types/error.types";
 
 export const handleErrors = <T>({
   response,
@@ -6,7 +10,7 @@ export const handleErrors = <T>({
   error,
   source,
   status
-}: Partial<ErrorProps<T>>): ErrorResponse<null> | null => {
+}: Partial<ErrorProps<T>>): ErrorHandlerReturn => {
   // console.log(response || error);
 
   if (!res)

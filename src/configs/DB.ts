@@ -4,10 +4,8 @@ import { MONGO_URI } from "./env.configs";
 
 config();
 
-export const connectDB = async () => {
+export const connectDB = async (): Promise<void> => {
   try {
-    console.log(MONGO_URI);
-
     await connect(MONGO_URI);
 
     console.log("DB connected...");

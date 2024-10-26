@@ -1,4 +1,5 @@
 import { Response } from "express";
+import { DefaultReturnObj } from "./general.types";
 
 export type ErrorResponse<T = null> = {
   data: T;
@@ -7,18 +8,18 @@ export type ErrorResponse<T = null> = {
   source: string;
 };
 
-export type HandleErrorReturn = ErrorResponse;
+export type HandleErrorReturn = DefaultReturnObj<null>;
 
 export type ErrorProps<T = string> = {
-  response: ErrorResponse<T>;
+  response: DefaultReturnObj<T>;
   res: Response;
   error: Error;
   source: string;
   status: number;
 };
 
-// export type ErrorHandlerReturn = Omit<ErrorResponse<null>, "status"> | null;
-export type ErrorHandlerReturn = ErrorResponse<null> | null;
+// export type ErrorHandlerReturn = Omit<DefaultReturnObj<null>, "status"> | null;
+export type ErrorHandlerReturn = DefaultReturnObj<null> | null;
 
 /* export type HandleError<T> = (
   response: Partial<ErrorResponse<T>>,

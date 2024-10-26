@@ -1,2 +1,13 @@
 ###
 GET  http://localhost:6172/
+
+###
+POST  http://localhost:6172/api/access/user/create
+Content-Type: application/json
+
+{
+  "full_name": "Prime Notion",
+  "username": "Prime",
+  "email": "beng@gmail.com",
+  "password": "PrmNot12"
+}
