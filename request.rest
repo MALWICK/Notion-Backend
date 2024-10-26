@@ -11,3 +11,12 @@ Content-Type: application/json
   "email": "beng@gmail.com",
   "password": "PrmNot12"
 }
+
+###
+POST  http://localhost:6172/api/access/user/login
+Content-Type: application/json
+
+{
+  "user": "Prime",
+  "password": "PrmNot12"
+}

@@ -1,7 +1,11 @@
-import { Request, Response } from "express";
+import { CookieOptions, Request, Response } from "express";
 import { defaultError, handleErrors } from "../helpers/errorHandler";
-import { createUserService } from "../services/user.services";
-import { CreateUserBodyType } from "../types/user.types";
+import {
+  createUserService,
+  userLoginService
+} from "../services/access.services";
+import { Token } from "../types/general.types";
+import { CreateUserBodyType, UserLoginBodyType } from "../types/user.types";
 
 export const createUserController = async (
   req: Request,
@@ -27,11 +31,55 @@ export const createUserController = async (
       handleErrors({
         res,
         error,
-        source: "OFFICE PERSONNEL LOGIN CONTROLLER"
+        source: "CREATE USER CONTROLLER"
       });
       return;
     } else {
-      defaultError("OFFICE PERSONNEL LOGIN CONTROLLER", error as string);
+      defaultError("CREATE USER CONTROLLER", error as string);
+      return;
+    }
+  }
+};
+
+export const userLoginController = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  try {
+    const body: UserLoginBodyType = req.body;
+
+    const response = await userLoginService(body);
+
+    if (
+      (response?.data === null || response?.errorMessage) &&
+      response?.status &&
+      response?.status >= 300
+    ) {
+      handleErrors({ response, res });
+      return;
+    }
+
+    const { accessToken, refreshToken } = response!.data as Token;
+
+    const cookie: CookieOptions = {
+      httpOnly: true,
+      secure: false,
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+      sameSite: "none"
+    };
+
+    res.cookie("jwt", refreshToken, cookie);
+    res.status(response!.status).send(accessToken);
+  } catch (error) {
+    if (error instanceof Error) {
+      handleErrors({
+        res,
+        error,
+        source: "USER LOGIN CONTROLLER"
+      });
+      return;
+    } else {
+      defaultError("USER LOGIN CONTROLLER", error as string);
       return;
     }
   }

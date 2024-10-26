@@ -14,3 +14,12 @@ export const createUserSchema = Yup.object({
       `Password must contain atleast one uppercase, one lowercase and one number`
     ) */
 });
+
+export const UserLoginSchema = Yup.object({
+  user: Yup.string().required(),
+  password: Yup.string().required().min(5).max(20)
+  /* .matches(
+      userPasswordRegex,
+      `Password must contain atleast one uppercase, one lowercase and one number`
+    ) */
+});

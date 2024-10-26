@@ -45,8 +45,6 @@ export const createUserModel = async (
       status: 200
     };
   } catch (error) {
-    console.log(error);
-
     if (error instanceof Error) {
       return handleErrors({ error, source: "CREATE USER MODEL" });
     } else {
@@ -59,22 +57,20 @@ export const userLoginModel = async (
   user: string
 ): ModelReturn<UserTblType | null> => {
   try {
-    const adminExisting = await UserTbl.findOne(
+    const userExisting = await UserTbl.findOne(
       {
-        $or: [{ email: user }, { mobile: user }, { username: user }]
+        $or: [{ email: user }, { username: user }]
       },
       { visible: 0, date_created: 0, date_updated: 0 }
     );
 
     return {
-      data: adminExisting,
+      data: userExisting,
       errorMessage: "",
       source: "USER LOGIN MODEL",
       status: 200
     };
   } catch (error) {
-    console.log(error);
-
     if (error instanceof Error) {
       return handleErrors({ error, source: "USER LOGIN MODEL" });
     } else {
